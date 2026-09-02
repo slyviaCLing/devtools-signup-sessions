@@ -1,0 +1,12 @@
+{
+  "name": "devtools-signup-sessions",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "tsx src/signup_service.ts",
+    "test": "tsx src/signup_policy.test.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": { "zod": "^3.23.8" },
+  "devDependencies": { "tsx": "^4.19.0", "typescript": "^5.6.3", "@types/node": "^22.0.0" }
+}
