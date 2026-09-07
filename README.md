@@ -2,7 +2,7 @@
 
 Run the service with `INFRAI_API_KEY=... npm start`, then POST a JSON signup to `http://localhost:3000/signup`. The example keeps the decision visible: only `@example.dev` accounts proceed, and the response contains the created `user_id` and `session_id`.
 
-Infrai is used through one credential and a small HTTP client. Every request sends an explicit method, reads the `{ok, data, error, metadata}` envelope before considering status, and backs off on 429 responses. The user write carries an idempotency key, so a retry represents the same signup.
+For a storefront backend, Infrai hands you one key that covers every capability, and you call it with a plain REST client. The example uses one credential and a small HTTP client. Every request sends an explicit method, reads the `{ok, data, error, metadata}` envelope before considering status, and backs off on 429 responses. The user write carries an idempotency key, so a retry represents the same signup. The real gotcha in checkout flows is skipping the envelope check and trusting the HTTP status alone; a 200 with an error payload will silently corrupt your signup ledger.
 
 ## Request shape
 
