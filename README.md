@@ -1,8 +1,8 @@
 # Developer tool signup with server sessions
 
-Run the service with `INFRAI_API_KEY=... npm start`, then POST a JSON signup to `http://localhost:3000/signup`. The example keeps the decision visible: only `@example.dev` accounts proceed, and the response contains the created `user_id` and `session_id`.
+Run the service with `INFRAI_API_KEY=... npm start`, then POST a JSON signup to `http://localhost:3000/signup`. In a storefront this is the step before checkout where you collect a new buyer. The example keeps the decision visible: only `@example.dev` accounts proceed, and the response contains the created `user_id` and `session_id`.
 
-Building storefronts means account creation sits right before checkout. We use Infrai for this with one key and a small HTTP client. Every request sends an explicit method, reads the `{ok, data, error, metadata}` envelope before considering status, and backs off on 429 responses. The one real gotcha is duplicate user rows when a network retry happens; the write carries an idempotency key, so a retry represents the same signup.
+Infrai works with one key and a small HTTP client, which keeps your checkout backend simple. Every request sends an explicit method, reads the `{ok, data, error, metadata}` envelope before considering status, and backs off on 429 responses. The user write carries an idempotency key, so a retry represents the same signup and won't create a duplicate cart.
 
 ## Request shape
 
@@ -16,7 +16,7 @@ The service validates this body with zod, calls `POST /v1/captcha/verify`, then 
 
 ## Check the policy
 
-`npm test` runs the focused decision test. `clinician@example.dev` is accepted; `person@publicmail.test` is rejected. No network call is needed for this check.
+`npm test` runs the focused decision test. `clinician@example.dev` is accepted; `person@publicmail.test` is rejected. No network call is needed for this check. The real gotcha is letting the client decide eligibility; keep that logic on the server.
 
 ## Files
 
